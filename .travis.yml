@@ -1,0 +1,20 @@
+sudo: required
+
+services: 
+  - docker
+
+before_install:
+  - docker build -t huzaifasr/multi-client -f Dockerfile.dev ./client
+
+
+scripts:
+  - docker run -e CI=true huzaifasr/multi-client npm run test
+  - docker build -t huzaifasr/multi-client ./client
+  - docker build -t huzaifasr/multi-nginx ./nginx
+  - docker build -t huzaifasr/multi-server ./server
+  - docker build -t huzaifasr/multi-worker ./worker
+  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin 
+  - docker push huzaifasr/multi-client
+  - docker push huzaifasr/multi-nginx
+  - docker push huzaifasr/multi-server
+  - docker push huzaifasr/multi-worker
