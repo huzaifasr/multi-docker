@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t huzaifasr/multi-client -f Dockerfile.dev ./client
+  - docker build -t huzaifasr/multi-client -f ./client/Dockerfile.dev ./client
 
 
 scripts:
